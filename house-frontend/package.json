@@ -13,7 +13,7 @@
     "url": "git+https://github.com/creativetimofficial/soft-ui-dashboard-react.git"
   },
   "engines": {
-    "node": "14 || 15 || 16",s
+    "node": "14 || 15 || 16",
     "npm": ">=6"
   },
   "dependencies": {
