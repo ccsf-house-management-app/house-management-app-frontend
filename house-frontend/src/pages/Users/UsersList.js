@@ -19,6 +19,8 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
+// import Date from "date";
+
 // react-routers components
 import { Link } from "react-router-dom";
 
@@ -29,6 +31,8 @@ import PropTypes from "prop-types";
 import Card from "@mui/material/Card";
 // import { Avatar } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
+import Grid from "@mui/material/Grid";
+import Icon from "@mui/material/Icon";
 
 // Soft UI Dashboard React components
 import SuiBox from "components/SuiBox";
@@ -38,12 +42,33 @@ import SuiButton from "components/SuiButton";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import backendService from "services/backend-service";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 
 // passing an empty array makes this not dependent on props
 // useEffect(() => {
 //   const profiles = crud.getAll("users");
 //   return this(profiles);
 // }, []);
+const styles = (theme) => ({
+  marginAutoContainer: {
+    width: 500,
+    height: 80,
+    display: "flex",
+    backgroundColor: "gold",
+  },
+  marginAutoItem: {
+    margin: "auto",
+  },
+  alignItemsAndJustifyContent: {
+    width: "75%",
+    height: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: theme.spacing(4),
+    backgroundColor: "pink",
+  },
+});
 
 function UsersList({ title }) {
   const [profilesJSON, setProfilesJSON] = useState([]);
@@ -70,15 +95,17 @@ function UsersList({ title }) {
     return color;
   }
 
-  function stringAvatar(name) {
-    console.log("NAME: " + name);
-    const component = (
-      <Avatar
-        sx={{ bgcolor: stringToColor(name) }}
-        children={`${name.split(" ")[0][0]}${name.split(" ")[1][0]}`}
-      />
-    );
-    return component;
+  function stringAvatar(name, key) {
+    console.log("NAME: " + name + `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`);
+    // const component = (
+    //   <Avatar
+    //     // key={key}
+    //     sx={{ bgcolor: stringToColor(name) }}
+    //     alt={`${name.split(" ")[0][0]}${name.split(" ")[1][0]}`}
+    //   />
+    // );
+    // return component;
+    return `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`;
   }
 
   function getName(u) {
@@ -93,47 +120,56 @@ function UsersList({ title }) {
       name: `${getName(u)}`,
       birthdate: u.birthdate,
       email: u.email,
-      phoneNumber: u.phone,
+      phone: u.phone,
       dateCreated: u.date_created,
       image: u.image,
     }));
     console.log("rendering users:" + JSON.stringify(attributes));
+    const keyGenerator = () => "_" + Math.random().toString(36).slice(2, 9);
 
     const profileElements = attributes.map((u) => (
-      <SuiBox
-        key={u.firstname + u.lastname}
-        component="li"
-        display="flex"
-        alignItems="center"
-        py={1}
-        mb={1}
-      >
-        Name: {u.name}
-        <SuiBox mr={2}>
-          <SuiAvatar
-            src={u.image ? null : stringAvatar(u.name)}
-            alt={`${u.firstname + u.lastname} profile image`}
-            variant="rounded"
-            shadow="md"
-          />
-        </SuiBox>
-        <SuiBox
-          display="flex"
-          flexDirection="column"
-          alignItems="flex-start"
-          justifyContent="center"
-        >
-          <SuiTypography variant="button" fontWeight="medium">
-            {u.firstname + u.lastname}
-          </SuiTypography>
-          <SuiTypography variant="caption" color="text">
-            {u.email}
-          </SuiTypography>
-          <SuiTypography variant="caption" color="text">
-            {u.phone}
-          </SuiTypography>
-        </SuiBox>
-      </SuiBox>
+      <Grid container spacing={1} key={keyGenerator()}>
+        <Grid item xs={3} md={3} xl={3}>
+          <SuiBox
+            key={u.firstname + u.lastname + u.id + Math.random().toString(36).slice(2, 9)}
+            component="li"
+            display="flex"
+            alignItems="center"
+            py={1}
+            mb={1}
+          >
+            {u.name}
+          </SuiBox>
+        </Grid>
+        <Grid item xs={1} md={1} xl={3}>
+          <SuiBox mr={2} key={keyGenerator()}>
+            <SuiAvatar
+              src={u.image ? null : stringAvatar(u.name, keyGenerator())}
+              alt={`${u.firstname + u.lastname} profile image`}
+              variant="rounded"
+              shadow="md"
+            />
+          </SuiBox>
+        </Grid>
+        <Grid item xs={3} md={3} xl={3}>
+          <SuiBox
+            display="flex"
+            flexDirection="column"
+            alignItems="flex-start"
+            justifyContent="center"
+          >
+            <SuiTypography variant="button" fontWeight="medium">
+              {u.name}
+            </SuiTypography>
+            <SuiTypography variant="caption" color="text">
+              {u.email}
+            </SuiTypography>
+            <SuiTypography variant="caption" color="text">
+              {u.phone}
+            </SuiTypography>
+          </SuiBox>
+        </Grid>
+      </Grid>
     ));
 
     return profileElements;
@@ -153,10 +189,10 @@ function UsersList({ title }) {
       console.log("Users API Response JSON: " + JSON.stringify(users));
       if (users) {
         // setProfilesRenderedElements(users2);
-        setProfilesJSON(users);
-        console.log(`JSON DATA: ${JSON.stringify(profilesJSON)}`);
-        console.log(`Profiles Loaded?: ${profilesDidLoad}`);
-        setProfilesRenderedElements(renderProfiles(users.data));
+        // setProfilesJSON(users);
+        // console.log(`JSON DATA: ${JSON.stringify(profilesJSON)}`);
+        // console.log(`Profiles Loaded?: ${profilesDidLoad}`);
+        setProfilesRenderedElements(renderProfiles(users));
         console.log(`Profile Rendered Component: ${profileRenderedElements}`);
       }
     };
@@ -164,15 +200,17 @@ function UsersList({ title }) {
   }, []);
 
   return (
-    <Card sx={{ height: "100%" }}>
-      <SuiBox pt={2} px={2}>
-        <SuiTypography variant="h6" fontWeight="medium" textTransform="capitalize">
-          {title}
-        </SuiTypography>
-      </SuiBox>
-      <SuiBox p={2}>
-        <SuiBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
-          {profileRenderedElements}
+    <Card className="alignItemsAndJustifyContent" m="20" sx={{ height: "100%" }}>
+      <SuiBox p="2">
+        <SuiBox pt={2} px={2}>
+          <SuiTypography variant="h6" fontWeight="medium" textTransform="capitalize">
+            {title}
+          </SuiTypography>
+        </SuiBox>
+        <SuiBox p={2}>
+          <SuiBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
+            {profileRenderedElements}
+          </SuiBox>
         </SuiBox>
       </SuiBox>
     </Card>
