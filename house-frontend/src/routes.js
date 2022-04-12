@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default-member */
 /**
 =========================================================
 * Soft UI Dashboard React - v3.1.0
@@ -56,14 +57,27 @@ import CustomerSupport from "examples/Icons/CustomerSupport";
 import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
 
+// App Pages
+// eslint-disable-next-line import/no-named-as-default
+import Users from "pages/Users/Users";
+
 const routes = [
   {
     type: "collapse",
-    name: "HouseHoldDashboard",
-    key: "household-app-dashboard",
+    name: "Home",
+    key: "household-app-home",
     route: "/home",
     icon: <Shop size="12px" />,
     component: <HouseHoldDashboard />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Users",
+    key: "users",
+    route: "/users",
+    icon: <Shop size="12px" />,
+    component: <Users />,
     noCollapse: true,
   },
   {
