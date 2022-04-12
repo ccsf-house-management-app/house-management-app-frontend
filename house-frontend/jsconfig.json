@@ -4,8 +4,7 @@
     "paths": {
       "*": ["src/*"]
     },
-    "target": "ES6",
-    "jsx": "react"
+    "target": "ES6"
   },
   "exclude": [
       "node_modules",

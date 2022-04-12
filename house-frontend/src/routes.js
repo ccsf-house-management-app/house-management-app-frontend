@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable import/no-named-as-default-member */
 /**
 =========================================================
@@ -37,7 +38,7 @@ Coded by www.creative-tim.com
 */
 
 // Soft UI Dashboard React layouts
-import HouseHoldDashboard from "layouts/household-app-dashboard";
+import HouseHoldDashboard from "pages/Home/index";
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
@@ -60,8 +61,18 @@ import Cube from "examples/Icons/Cube";
 // App Pages
 // eslint-disable-next-line import/no-named-as-default
 import Users from "pages/Users/Users";
+import App from "App";
 
 const routes = [
+  {
+    type: "collapse",
+    name: "Home",
+    key: "household-app-home",
+    route: "/",
+    icon: <Shop size="12px" />,
+    component: <HouseHoldDashboard />,
+    noCollapse: true,
+  },
   {
     type: "collapse",
     name: "Home",

@@ -75,26 +75,11 @@ import axios from "axios/index";
 function HouseHoldDashboard() {
   const { size } = typography;
   const { chart, items } = reportsBarChartData;
-  const { allProfiles, setAllProfiles } = useState([]);
-
-  useEffect(() => {
-    const users2 = axios.get("http://127.0.0.1:8000/api/users/");
-    if (users2) {
-      setAllProfiles(users2);
-    }
-    const users = backendService.getAll("users").then((user) => {
-      if (users) {
-        setAllProfiles(users);
-      }
-    }, []);
-  });
-
-  console.log(allProfiles);
 
   return (
     <HouseholdDashboardLayout>
       <HouseholdDashboardNavbar />
-      <UsersList title="Users" profiles={allProfiles} />
+      <UsersList title="Users" />
       <Card name="rooms">
         <SuiBox p={2}>
           <Grid container spacing={3}>

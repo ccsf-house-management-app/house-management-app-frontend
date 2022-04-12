@@ -29,7 +29,6 @@ import SuiBox from "components/SuiBox";
 
 // Soft UI Dashboard React examples
 // import Sidenav from "examples/Sidenav";
-import Configurator from "examples/Configurator";
 
 // Soft UI Dashboard React themes
 import theme from "assets/theme";
@@ -46,41 +45,12 @@ import routes from "routes";
 // Soft UI Dashboard React contexts
 import { useSoftUIController, setMiniSidenav, setOpenConfigurator } from "context";
 
-// Images
-import brand from "assets/images/logo-ct.png";
-
 export default function App() {
   const [controller, dispatch] = useSoftUIController();
   const { miniSidenav, direction, layout, openConfigurator, sidenavColor } = controller;
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   // const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
-
-  // // Cache for the rtl
-  // useMemo(() => {
-  //   const cacheRtl = createCache({
-  //     key: "rtl",
-  //     stylisPlugins: [rtlPlugin],
-  //   });
-
-  //   setRtlCache(cacheRtl);
-  // }, []);
-
-  // Open sidenav when mouse enter on mini sidenav
-  const handleOnMouseEnter = () => {
-    if (miniSidenav && !onMouseEnter) {
-      setMiniSidenav(dispatch, false);
-      setOnMouseEnter(true);
-    }
-  };
-
-  // Close sidenav when mouse leave mini sidenav
-  const handleOnMouseLeave = () => {
-    if (onMouseEnter) {
-      setMiniSidenav(dispatch, true);
-      setOnMouseEnter(false);
-    }
-  };
 
   // Change the openConfigurator state
   const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
@@ -136,9 +106,9 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {layout === "household-app-dashboard" && (
-        <>
-          {/* <Sidenav
+      {/* {layout === "household-app-dashboard" && ( */}
+      {/* <> */}
+      {/* <Sidenav
             color={sidenavColor}
             brand={brand}
             brandName="Soft UI Dashboard"
@@ -146,14 +116,15 @@ export default function App() {
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
           /> */}
-          <Configurator />
-          {configsButton}
-        </>
-      )}
+      {/* <Configurator /> */}
+      {/* {configsButton} */}
+      {/* </> */}
+      {/* )} */}
       {/* {layout === "vr" && <Configurator />} */}
+      {/* <HouseHoldDashboard /> */}
       <Routes>
         {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/home" />} />
+        <Route path="*" element={<Navigate to="home/*" />} />
       </Routes>
     </ThemeProvider>
   );
