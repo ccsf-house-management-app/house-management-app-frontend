@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /**
 =========================================================
@@ -14,10 +15,17 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 
 // react-router components
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  BrowserRouter as Router,
+  Switch,
+} from "react-router-dom";
 
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
@@ -26,6 +34,11 @@ import Icon from "@mui/material/Icon";
 
 // Soft UI Dashboard React components
 import SuiBox from "components/SuiBox";
+
+import HouseholdDashboardLayout from "layouts/LayoutContainers/HouseholdDashboardLayout/index";
+import HouseholdDashboardNavbar from "components/HouseholdDashboardNavbar/index";
+
+import Footer from "examples/Footer";
 
 // Soft UI Dashboard React examples
 // import Sidenav from "examples/Sidenav";
@@ -40,10 +53,21 @@ import theme from "assets/theme";
 // import createCache from "@emotion/cache";
 
 // Soft UI Dashboard React routes
+// eslint-disable-next-line import/named
 import routes from "routes";
 
 // Soft UI Dashboard React contexts
 import { useSoftUIController, setMiniSidenav, setOpenConfigurator } from "context";
+import loginRoutes from "utils/loginRoute";
+import HouseHoldDashboard from "pages/home/index";
+import AuthContext, { AuthProvider } from "./context/AuthContext";
+
+// import ProtectedPage from "./components/ProtectedPage";
+// import PrivateRoute from "./utils/PrivateRoute";
+// import getRoutes from "./utils/getRoutes";
+// import { useContext, useState, useEffect } from "react";
+// eslint-disable-next-line import/no-named-as-default
+// import AuthContext from "context/AuthContext";
 
 export default function App() {
   const [controller, dispatch] = useSoftUIController();
@@ -51,6 +75,39 @@ export default function App() {
   const [onMouseEnter, setOnMouseEnter] = useState(false);
   // const [rtlCache, setRtlCache] = useState(null);
   const { pathname } = useLocation();
+
+  const { user } = useContext(AuthContext);
+
+  // eslint-disable-next-line no-console
+  // console.log(`in routes.js, is user?: ${JSON.stringify(user)}`);
+
+  const [userLoggedIn, setUserLoggedIn] = useState([]);
+
+  const [availableRoutes, setRoutes] = useState({});
+
+  useCallback(() => {
+    if (user) {
+      setUserLoggedIn(user);
+    } else {
+      setUserLoggedIn([]);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      setUserLoggedIn(user);
+      // console.log(`Dashboard Navbar, is user logged in?: ${userLoggedIn}`);
+      setRoutes(routes);
+      console.log(`setting to routes: ${routes}`);
+      console.log(`typeof routes: ${typeof routes}`);
+    } else {
+      // console.log(`Dashboard Navbar, is user logged in?: ${userLoggedIn}`);
+      setRoutes(loginRoutes);
+      console.log(`setting to loginRoutes: ${loginRoutes}`);
+      console.log(`typeof loginRoutes: ${typeof loginRoutes}`);
+    }
+    console.log(`typeof availableRoutes: ${typeof availableRoutes}`);
+  }, [userLoggedIn]);
 
   // Change the openConfigurator state
   const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
@@ -65,19 +122,6 @@ export default function App() {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
   }, [pathname]);
-
-  const getRoutes = (allRoutes) =>
-    allRoutes.map((route) => {
-      if (route.collapse) {
-        return getRoutes(route.collapse);
-      }
-
-      if (route.route) {
-        return <Route exact path={route.route} element={route.component} key={route.key} />;
-      }
-
-      return null;
-    });
 
   const configsButton = (
     <SuiBox
@@ -103,12 +147,40 @@ export default function App() {
     </SuiBox>
   );
 
+  const getRoutes = (allRoutes) => {
+    console.log(allRoutes);
+    let routing = null;
+    if (allRoutes !== null && allRoutes.length > 0) {
+      // return null;
+      // }
+      // return null;
+      routing = allRoutes.map((route) => {
+        console.log(route);
+        if (route.collapse) {
+          return getRoutes(route.collapse);
+        }
+
+        if (route.route) {
+          return <Route exact path={route.route} element={route.component} key={route.key} />;
+        }
+
+        return null;
+      });
+    }
+    return routing;
+  };
+
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {/* {layout === "household-app-dashboard" && ( */}
-      {/* <> */}
-      {/* <Sidenav
+    // <Router>
+    // <AuthProvider>
+    <div className="flex flex-col min-h-screen overflow-hidden">
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <HouseholdDashboardLayout>
+          <HouseholdDashboardNavbar />
+          {/* {layout === "household-app-dashboard" && ( */}
+          {/* <> */}
+          {/* <Sidenav
             color={sidenavColor}
             brand={brand}
             brandName="Soft UI Dashboard"
@@ -116,16 +188,29 @@ export default function App() {
             onMouseEnter={handleOnMouseEnter}
             onMouseLeave={handleOnMouseLeave}
           /> */}
-      {/* <Configurator /> */}
-      {/* {configsButton} */}
-      {/* </> */}
-      {/* )} */}
-      {/* {layout === "vr" && <Configurator />} */}
-      {/* <HouseHoldDashboard /> */}
-      <Routes>
-        {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="home/*" />} />
-      </Routes>
-    </ThemeProvider>
+          {/* <Configurator /> */}
+          {/* {configsButton} */}
+          {/* </> */}
+          {/* )} */}
+          {/* {layout === "vr" && <Configurator />} */}
+          {/* <HouseHoldDashboard /> */}
+          {/* <Router> */}
+          <Routes>
+            {/* <PrivateRoute component={ProtectedPage} path="/protected" exact /> */}
+            {/* {getRoutes(routes)} */}
+            {getRoutes(availableRoutes)}
+            {/* <Route path="/" element={<PrivateRoute />}> */}
+            {/* </PrivateRoute> */}
+            <Route path="/home" element={<HouseHoldDashboard />} />
+            <Route path="/*" element={<Navigate to="home/" />} />
+            {/* </Route> */}
+            {getRoutes(loginRoutes)}
+          </Routes>
+          {/* </Router> */}
+          {/* <Footer /> */}
+        </HouseholdDashboardLayout>
+      </ThemeProvider>
+    </div>
+    // </Router>
   );
 }

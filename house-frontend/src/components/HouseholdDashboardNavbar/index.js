@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/self-closing-comp */
 /**
@@ -15,7 +17,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 
 // react-router components
 import { useLocation, Link } from "react-router-dom";
@@ -29,6 +31,7 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import Icon from "@mui/material/Icon";
+import Grid from "@mui/material/Grid";
 
 // Soft UI Dashboard React components
 import SuiBox from "components/SuiBox";
@@ -38,7 +41,6 @@ import SuiInput from "components/SuiInput";
 // Soft UI Dashboard React examples
 import Breadcrumbs from "examples/Breadcrumbs";
 import NotificationItem from "examples/Items/NotificationItem";
-
 // Custom styles for DashboardNavbar
 import {
   navbar,
@@ -59,6 +61,9 @@ import {
 // Images
 import team2 from "assets/images/team-2.jpg";
 import logoSpotify from "assets/images/small-logos/logo-spotify.svg";
+import pxToRem from "assets/theme/functions/pxToRem";
+import AuthContext from "context/AuthContext";
+import UserInfo from "components/UserInfo";
 
 function HouseholdDashboardNavbar({ absolute, light, isMini }) {
   const [navbarType, setNavbarType] = useState();
@@ -66,6 +71,18 @@ function HouseholdDashboardNavbar({ absolute, light, isMini }) {
   const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator } = controller;
   const [openMenu, setOpenMenu] = useState(false);
   const route = useLocation().pathname.split("/").slice(1);
+  const { user } = useContext(AuthContext);
+  // const authContext = useContext(AuthContext);
+  const [userLoggedIn, setUserLoggedIn] = useState([]);
+
+  const checkUser = useCallback(() => {
+    if (user) {
+      setUserLoggedIn(user);
+      console.log(`Dashboard Navbar, is user logged in?: ${userLoggedIn}`);
+    } else {
+      console.log(`Dashboard Navbar, is user logged in?: ${userLoggedIn}`);
+    }
+  }, [user]);
 
   useEffect(() => {
     // Setting the navbar type
@@ -144,7 +161,12 @@ function HouseholdDashboardNavbar({ absolute, light, isMini }) {
       sx={(theme) => navbar(theme, { transparentNavbar, absolute, light })}
     >
       <Toolbar sx={(theme) => navbarContainer(theme)}>
-        <SuiBox color="inherit" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
+        <SuiBox
+          color="inherit"
+          width="50%"
+          mb={{ xs: 1, md: 1 }}
+          sx={(theme) => navbarRow(theme, { isMini })}
+        >
           <Breadcrumbs
             id="breadcrumbs"
             icon="home"
@@ -155,13 +177,16 @@ function HouseholdDashboardNavbar({ absolute, light, isMini }) {
         </SuiBox>
         {isMini ? null : (
           <SuiBox sx={(theme) => navbarRow(theme, { isMini })}>
-            <SuiBox pr={1}>
+            <SuiBox pr={4}>
               <SuiInput
                 placeholder="Type here..."
                 icon={{ component: "search", direction: "left" }}
               />
             </SuiBox>
             <SuiBox color={light ? "white" : "inherit"}>
+              {/* {userLoggedIn ? (
+                <UserInfo />
+              ) : ( */}
               <Link to="/authentication/sign-in">
                 <IconButton sx={navbarIconButton} size="small">
                   <Icon
@@ -180,6 +205,7 @@ function HouseholdDashboardNavbar({ absolute, light, isMini }) {
                   </SuiTypography>
                 </IconButton>
               </Link>
+              {/* )} */}
               <IconButton
                 size="small"
                 color="inherit"
@@ -190,15 +216,15 @@ function HouseholdDashboardNavbar({ absolute, light, isMini }) {
                   {miniSidenav ? "menu_open" : "menu"}
                 </Icon>
               </IconButton>
-              <IconButton
+              {/* <IconButton
                 size="small"
                 color="inherit"
                 sx={navbarIconButton}
                 onClick={handleConfiguratorOpen}
               >
                 <Icon>settings</Icon>
-              </IconButton>
-              <IconButton
+              </IconButton> */}
+              {/* <IconButton
                 size="small"
                 color="inherit"
                 sx={navbarIconButton}
@@ -208,13 +234,69 @@ function HouseholdDashboardNavbar({ absolute, light, isMini }) {
                 onClick={handleOpenMenu}
               >
                 <Icon className={light ? "text-white" : "text-dark"}>notifications</Icon>
-              </IconButton>
+              </IconButton> */}
               {renderMenu()}
             </SuiBox>
           </SuiBox>
         )}
       </Toolbar>
-      <Toolbar sx={(theme) => navbarContainer(theme)}>
+      <Grid
+        container
+        width={{ xs: "75%", sm: "100%" }}
+        mb={{ xs: 2 }}
+        spacing={{ xs: 2, sm: 2, md: 2 }}
+        align="center"
+        justify="center"
+      >
+        <Grid item xs={4}>
+          <SuiBox color={light ? "white" : "inherit"}>
+            {/* // display={{ xs: "inline-flex", sm: "flex" }}> */}
+            <Link to="/records/" onClick={checkUser}>
+              <SuiTypography
+                // variant="button"
+                // fontSize="600"
+                variant="button"
+                fontWeight="bold"
+                // fontSize={{ pxToRem(16) }}
+                color={light ? "white" : "dark"}
+                fontSize={pxToRem(18)}
+              >
+                Records
+              </SuiTypography>
+            </Link>
+          </SuiBox>
+        </Grid>
+        <Grid item xs={4}>
+          <SuiBox color={light ? "white" : "inherit"}>
+            <Link to="/reports/">
+              <SuiTypography
+                variant="button"
+                fontWeight="bold"
+                color={light ? "white" : "dark"}
+                fontSize={pxToRem(18)}
+              >
+                Reports
+              </SuiTypography>
+            </Link>
+          </SuiBox>
+        </Grid>
+        <Grid item xs={4}>
+          <SuiBox color={light ? "white" : "inherit"}>
+            <Link to="/resources/">
+              <SuiTypography
+                variant="button"
+                fontWeight="bold"
+                color={light ? "white" : "dark"}
+                fontSize={pxToRem(18)}
+              >
+                Resources
+              </SuiTypography>
+            </Link>
+          </SuiBox>
+        </Grid>
+      </Grid>
+      {/* <Toolbar sx={(theme) => navbarContainer(theme)}></Toolbar> */}
+      {/* <Toolbar sx={(theme) => navbarContainer(theme)}>
         <SuiBox color={light ? "white" : "inherit"}>
           <Link to="/authentication/sign-in">
             <IconButton sx={navbarIconButton} size="small">
@@ -231,7 +313,7 @@ function HouseholdDashboardNavbar({ absolute, light, isMini }) {
             </IconButton>
           </Link>
         </SuiBox>
-      </Toolbar>
+      </Toolbar> */}
     </AppBar>
   );
 }

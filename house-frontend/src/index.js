@@ -17,6 +17,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import App from "App";
+import { AuthProvider } from "context/AuthContext";
 
 // Soft UI Dashboard React Context Provider
 import { SoftUIControllerProvider } from "context";
@@ -24,7 +25,9 @@ import { SoftUIControllerProvider } from "context";
 ReactDOM.render(
   <BrowserRouter>
     <SoftUIControllerProvider>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </SoftUIControllerProvider>
   </BrowserRouter>,
   document.getElementById("root")

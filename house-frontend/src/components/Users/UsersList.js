@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable react/no-children-prop */
 /* eslint-disable prefer-template */
 /* eslint-disable camelcase */
@@ -33,6 +34,7 @@ import Card from "@mui/material/Card";
 import Avatar from "@mui/material/Avatar";
 import Grid from "@mui/material/Grid";
 import Icon from "@mui/material/Icon";
+import theme from "assets/theme";
 
 // Soft UI Dashboard React components
 import SuiBox from "components/SuiBox";
@@ -43,13 +45,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import backendService from "services/backend-service";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+import PlaceholderCard from "examples/Cards/PlaceholderCard/index";
 
 // passing an empty array makes this not dependent on props
 // useEffect(() => {
 //   const profiles = crud.getAll("users");
 //   return this(profiles);
 // }, []);
-const styles = (theme) => ({
+export const styles2 = (theme) => ({
   marginAutoContainer: {
     width: 500,
     height: 80,
@@ -65,15 +68,14 @@ const styles = (theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: theme.spacing(4),
+    // marginBottom: theme.spacing(4),
+    marginBottom: "4rem",
     backgroundColor: "pink",
   },
 });
 
 function UsersList({ title }) {
-  const [profilesJSON, setProfilesJSON] = useState([]);
   const [profileRenderedElements, setProfilesRenderedElements] = useState([]);
-  const [profilesDidLoad, toggleProfilesDidLoad] = useState(false);
 
   function stringToColor(string) {
     let hash = 0;
@@ -95,17 +97,14 @@ function UsersList({ title }) {
     return color;
   }
 
-  function stringAvatar(name, key) {
-    console.log("NAME: " + name + `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`);
-    // const component = (
-    //   <Avatar
-    //     // key={key}
-    //     sx={{ bgcolor: stringToColor(name) }}
-    //     alt={`${name.split(" ")[0][0]}${name.split(" ")[1][0]}`}
-    //   />
-    // );
-    // return component;
-    return `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`;
+  function stringAvatar(name) {
+    console.log("NAME: " + name);
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+    };
   }
 
   function getName(u) {
@@ -114,7 +113,7 @@ function UsersList({ title }) {
 
   function renderProfiles(users) {
     const attributes = users.map((u) => ({
-      userId: u.userId,
+      userId: u.userid,
       firstName: u.firstName,
       lastName: u.lastName,
       name: `${getName(u)}`,
@@ -128,38 +127,55 @@ function UsersList({ title }) {
     const keyGenerator = () => "_" + Math.random().toString(36).slice(2, 9);
 
     const profileElements = attributes.map((u) => (
-      <Grid container spacing={1} key={keyGenerator()}>
-        <Grid item xs={3} md={3} xl={3}>
-          <SuiBox
-            key={u.firstname + u.lastname + u.id + Math.random().toString(36).slice(2, 9)}
-            component="li"
-            display="flex"
-            alignItems="center"
-            py={1}
-            mb={1}
-          >
-            {u.name}
-          </SuiBox>
-        </Grid>
-        <Grid item xs={1} md={1} xl={3}>
-          <SuiBox mr={2} key={keyGenerator()}>
-            <SuiAvatar
-              src={u.image ? null : stringAvatar(u.name, keyGenerator())}
-              alt={`${u.firstname + u.lastname} profile image`}
-              variant="rounded"
+      <Grid
+        container
+        // item
+        spacing={{ xs: 2, sm: 2, md: 3 }}
+        // columns={{ xs: 1, sm: 4, md: 12 }}
+        key={keyGenerator()}
+      >
+        <Grid item xs={2} sm={2} md={2} xl={2}>
+          <SuiBox key={keyGenerator()} alignItems="end">
+            <Avatar
+              {...stringAvatar(u.name)}
+              // src={u.image ? null : stringAvatar(u.name, keyGenerator())}
+              alt={`${u.firstname + " " + u.lastname} profile image`}
+              // variant="rounded"
               shadow="md"
             />
           </SuiBox>
         </Grid>
-        <Grid item xs={3} md={3} xl={3}>
+
+        <Grid item marginBottom={{ xs: -2, sm: 1 }} xs={10} sm={5} md={6} xl={6}>
+          <SuiBox
+            key={u.firstname + u.lastname + u.id + Math.random().toString(36).slice(2, 9)}
+            component="li"
+            display="flex"
+            alignItems="flex-start"
+            // justifyContent="center"
+            // py={1}
+            // px={2}
+            mt={{ xs: 0, sm: 0 }}
+            // mb={1}
+            // ml={1}
+          >
+            {u.name}
+          </SuiBox>
+        </Grid>
+        <Grid item xs={10} sm={4} md={4} xl={4} marginBottom={2}>
           <SuiBox
             display="flex"
+            // component="li"
             flexDirection="column"
             alignItems="flex-start"
             justifyContent="center"
+            ml={{ xs: "20.5%", sm: "25%" }}
+            // position={{ xs: "relative" }}
+            // paddingLeft={{ xs: "5rem" }}
           >
             <SuiTypography variant="button" fontWeight="medium">
-              {u.name}
+              {/* {u.name} */}
+              user # {u.userId}
             </SuiTypography>
             <SuiTypography variant="caption" color="text">
               {u.email}
@@ -199,19 +215,60 @@ function UsersList({ title }) {
     fetchData();
   }, []);
 
+  const cardStyles = Card.styles;
+
   return (
-    <Card className="alignItemsAndJustifyContent" m="20" sx={{ height: "100%" }}>
-      <SuiBox p="2">
+    <Card
+      // style={{ marginBottom: "2rem", marginLeft: "2rem", marginRight: "2rem", marginTop: "2rem" }}
+      // className="alignItemsAndJustifyContent"
+      sx={{
+        mb: 2,
+        ml: {
+          xs: 0,
+          sm: "auto",
+          // md: 0,
+        },
+        mr: {
+          xs: 0,
+          sm: "auto",
+          // md: 0,
+        },
+        height: "100%",
+        width: {
+          // xs: "75%", // theme.breakpoints.up('xs')
+          sm: "90%", // theme.breakpoints.up('sm')
+          md: "90%", // theme.breakpoints.up('md')
+          lg: "75%", // theme.breakpoints.up('lg')
+          xl: "50rem", // theme.breakpoints.up('xl')
+        },
+        // width: "75%",
+        // "@media (min-width:900)": {
+        //   // eslint-disable-line no-useless-computed-key
+        //   width: "50%",
+        // },
+        // width: "65%",
+        // "@media (min-width:640)": {
+        //   // eslint-disable-line no-useless-computed-key
+        //   width: "75%",
+        // },
+      }}
+      // width={{ xs: "3/4", sm: "5/8", md: "1/2" }}
+    >
+      <SuiBox>
         <SuiBox pt={2} px={2}>
-          <SuiTypography variant="h6" fontWeight="medium" textTransform="capitalize">
+          <SuiTypography variant="h4" fontWeight="medium" textTransform="capitalize">
             {title}
           </SuiTypography>
         </SuiBox>
         <SuiBox p={2}>
-          <SuiBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
-            {profileRenderedElements}
-          </SuiBox>
+          {profileRenderedElements}
+          {/* <SuiBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
+          </SuiBox> */}
         </SuiBox>
+      </SuiBox>
+      <SuiBox p="2">
+        {/* <PlaceholderCard title="Create User">Create new User</PlaceholderCard> */}
+        <PlaceholderCard title={{ variant: "h5", text: "Create new User" }} outlined />
       </SuiBox>
     </Card>
   );

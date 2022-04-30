@@ -38,7 +38,7 @@ Coded by www.creative-tim.com
 */
 
 // Soft UI Dashboard React layouts
-import HouseHoldDashboard from "pages/Home/index";
+import HouseHoldDashboard from "pages/home/index";
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
@@ -57,13 +57,36 @@ import SpaceShip from "examples/Icons/SpaceShip";
 import CustomerSupport from "examples/Icons/CustomerSupport";
 import CreditCard from "examples/Icons/CreditCard";
 import Cube from "examples/Icons/Cube";
+import Records from "pages/records/Records";
+import UserSignIn from "layouts/LayoutContainers/UserAuthentication/sign-in/index";
 
 // App Pages
 // eslint-disable-next-line import/no-named-as-default
-import Users from "pages/Users/Users";
-import App from "App";
+import Users from "components/Users/Users";
+import { useContext, useState, useEffect } from "react";
+// eslint-disable-next-line import/no-named-as-default
+import AuthContext from "context/AuthContext";
+
+// function currentRoutes() {
+//   const { user } = useContext(AuthContext);
+
+//   // eslint-disable-next-line no-console
+//   console.log(`in routes.js, is user?: ${JSON.stringify(user)}`);
+
+//   const [userLoggedIn, setUserLoggedIn] = useState([]);
+
+//   const [availableRoutes, setRoutes] = useState({});
 
 const routes = [
+  {
+    type: "collapse",
+    name: "Home",
+    key: "household-app-home",
+    route: "/*",
+    icon: <Shop size="12px" />,
+    component: <HouseHoldDashboard />,
+    noCollapse: true,
+  },
   {
     type: "collapse",
     name: "Home",
@@ -80,6 +103,15 @@ const routes = [
     route: "/home",
     icon: <Shop size="12px" />,
     component: <HouseHoldDashboard />,
+    noCollapse: true,
+  },
+  {
+    type: "collapse",
+    name: "Records",
+    key: "records",
+    route: "/records",
+    icon: <Shop size="12px" />,
+    component: <Records />,
     noCollapse: true,
   },
   {
@@ -146,24 +178,40 @@ const routes = [
     component: <Profile />,
     noCollapse: true,
   },
-  {
-    type: "collapse",
-    name: "Sign In",
-    key: "sign-in",
-    route: "/authentication/sign-in",
-    icon: <Document size="12px" />,
-    component: <SignIn />,
-    noCollapse: true,
-  },
-  {
-    type: "collapse",
-    name: "Sign Up",
-    key: "sign-up",
-    route: "/authentication/sign-up",
-    icon: <SpaceShip size="12px" />,
-    component: <SignUp />,
-    noCollapse: true,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "Sign In",
+  //   key: "sign-in",
+  //   route: "/authentication/sign-in",
+  //   icon: <Document size="12px" />,
+  //   component: <UserSignIn />,
+  //   noCollapse: true,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Sign Up",
+  //   key: "sign-up",
+  //   route: "/authentication/sign-up",
+  //   icon: <SpaceShip size="12px" />,
+  //   component: <SignUp />,
+  //   noCollapse: true,
+  // },
 ];
+
+//   useEffect(() => {
+//     if (user) {
+//       setUserLoggedIn(user);
+//       // console.log(`Dashboard Navbar, is user logged in?: ${userLoggedIn}`);
+//       setRoutes(routes);
+//     } else {
+//       // console.log(`Dashboard Navbar, is user logged in?: ${userLoggedIn}`);
+//       setRoutes(login);
+//     }
+//   }, [user]);
+
+//   // console.log(`avaialble routes: ${availableRoutes}`);
+
+//   return availableRoutes;
+// }
 
 export default routes;

@@ -31,7 +31,7 @@ import PlaceholderCard from "examples/Cards/PlaceholderCard";
 // Soft UI Dashboard React examples
 // import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 // import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import HouseholdDashboardLayout from "examples/LayoutContainers/HouseholdDashboardLayout/index";
+import HouseholdDashboardLayout from "layouts/LayoutContainers/HouseholdDashboardLayout/index";
 import HouseholdDashboardNavbar from "components/HouseholdDashboardNavbar/index";
 
 import Footer from "examples/Footer";
@@ -67,19 +67,21 @@ import homeDecor3 from "assets/images/home-decor-3.jpg";
 // Data
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import gradientLineChartData from "layouts/dashboard/data/gradientLineChartData";
-import UsersList from "pages/Users/UsersList";
+import UsersList from "components/Users/UsersList";
 
 import backendService from "services/backend-service";
 import axios from "axios/index";
+import { Box } from "@material-ui/core/index";
 
 function HouseHoldDashboard() {
   const { size } = typography;
   const { chart, items } = reportsBarChartData;
 
   return (
-    <HouseholdDashboardLayout>
-      <HouseholdDashboardNavbar />
-      <UsersList title="Users" />
+    // <HouseholdDashboardLayout>
+    <Box>
+      {/* <HouseholdDashboardNavbar /> */}
+      {/* <UsersList title="Users" /> */}
       <Card name="rooms">
         <SuiBox p={2}>
           <Grid container spacing={3}>
@@ -137,9 +139,9 @@ function HouseHoldDashboard() {
             <Grid item xs={12} lg={7}>
               <BuildByDevelopers />
             </Grid>
-            <Grid item xs={12} lg={5}>
+            {/* <Grid item xs={12} lg={5}>
               <WorkWithTheRockets />
-            </Grid>
+            </Grid> */}
           </Grid>
         </SuiBox>
         <SuiBox mb={3}>
@@ -187,8 +189,8 @@ function HouseHoldDashboard() {
           </Grid>
         </Grid>
       </SuiBox>
-      <Footer />
-    </HouseholdDashboardLayout>
+      {/* <Footer /> */}
+    </Box>
   );
 }
 
