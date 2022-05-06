@@ -58,6 +58,10 @@ function UserInfo() {
   //     setUserLoggedIn(user);
   //   }, [user]);
 
+  if (!user) {
+    return null;
+  }
+
   if (user) {
     return (
       <div>
