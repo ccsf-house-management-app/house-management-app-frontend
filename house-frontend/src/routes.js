@@ -38,7 +38,7 @@ Coded by www.creative-tim.com
 */
 
 // Soft UI Dashboard React layouts
-import HouseHoldDashboard from "pages/home/index";
+import HouseHoldDashboard from "pages/Home/index";
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";

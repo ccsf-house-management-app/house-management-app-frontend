@@ -56,7 +56,7 @@ import routes from "routes";
 // Soft UI Dashboard React contexts
 import { useSoftUIController, setOpenConfigurator } from "context";
 import loginRoutes from "utils/loginRoute";
-import HouseHoldDashboard from "pages/home/index";
+import HouseHoldDashboard from "pages/Home/index";
 import AuthContext from "./context/AuthContext";
 import PrivateRoute from "./utils/PrivateRoute";
 
