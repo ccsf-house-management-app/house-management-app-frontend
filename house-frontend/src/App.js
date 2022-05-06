@@ -18,27 +18,24 @@ Coded by www.creative-tim.com
 import { useState, useEffect, useContext, useCallback } from "react";
 
 // react-router components
-import {
-  Routes,
-  Route,
-  Navigate,
-  useLocation,
-  BrowserRouter as Router,
-  Switch,
-} from "react-router-dom";
+// @ts-ignore
+import { Routes, Route, useLocation } from "react-router-dom";
 
 // @mui material components
+// @ts-ignore
 import { ThemeProvider } from "@mui/material/styles";
+// @ts-ignore
 import CssBaseline from "@mui/material/CssBaseline";
+// @ts-ignore
 import Icon from "@mui/material/Icon";
 
 // Soft UI Dashboard React components
+// @ts-ignore
 import SuiBox from "components/SuiBox";
 
 import HouseholdDashboardLayout from "layouts/LayoutContainers/HouseholdDashboardLayout/index";
+// @ts-ignore
 import HouseholdDashboardNavbar from "components/HouseholdDashboardNavbar/index";
-
-import Footer from "examples/Footer";
 
 // Soft UI Dashboard React examples
 // import Sidenav from "examples/Sidenav";
@@ -57,10 +54,11 @@ import theme from "assets/theme";
 import routes from "routes";
 
 // Soft UI Dashboard React contexts
-import { useSoftUIController, setMiniSidenav, setOpenConfigurator } from "context";
+import { useSoftUIController, setOpenConfigurator } from "context";
 import loginRoutes from "utils/loginRoute";
 import HouseHoldDashboard from "pages/home/index";
-import AuthContext, { AuthProvider } from "./context/AuthContext";
+import AuthContext from "./context/AuthContext";
+import PrivateRoute from "./utils/PrivateRoute";
 
 // import ProtectedPage from "./components/ProtectedPage";
 // import PrivateRoute from "./utils/PrivateRoute";
@@ -98,15 +96,15 @@ export default function App() {
       setUserLoggedIn(user);
       // console.log(`Dashboard Navbar, is user logged in?: ${userLoggedIn}`);
       setRoutes(routes);
-      console.log(`setting to routes: ${routes}`);
-      console.log(`typeof routes: ${typeof routes}`);
+      // console.log(`setting to routes: ${routes}`);
+      // console.log(`typeof routes: ${typeof routes}`);
     } else {
       // console.log(`Dashboard Navbar, is user logged in?: ${userLoggedIn}`);
       setRoutes(loginRoutes);
-      console.log(`setting to loginRoutes: ${loginRoutes}`);
-      console.log(`typeof loginRoutes: ${typeof loginRoutes}`);
+      // console.log(`setting to loginRoutes: ${loginRoutes}`);
+      // console.log(`typeof loginRoutes: ${typeof loginRoutes}`);
     }
-    console.log(`typeof availableRoutes: ${typeof availableRoutes}`);
+    // console.log(`typeof availableRoutes: ${typeof availableRoutes}`);
   }, [userLoggedIn]);
 
   // Change the openConfigurator state
@@ -148,14 +146,14 @@ export default function App() {
   );
 
   const getRoutes = (allRoutes) => {
-    console.log(allRoutes);
+    // console.log(allRoutes);
     let routing = null;
     if (allRoutes !== null && allRoutes.length > 0) {
       // return null;
       // }
       // return null;
       routing = allRoutes.map((route) => {
-        console.log(route);
+        // console.log(route);
         if (route.collapse) {
           return getRoutes(route.collapse);
         }
@@ -197,12 +195,16 @@ export default function App() {
           {/* <Router> */}
           <Routes>
             {/* <PrivateRoute component={ProtectedPage} path="/protected" exact /> */}
-            {/* {getRoutes(routes)} */}
-            {getRoutes(availableRoutes)}
+            {/* <Route path="/" element={<PrivateRoute />}> */}
+            {/* {getRoutes(availableRoutes)} */}
             {/* <Route path="/" element={<PrivateRoute />}> */}
             {/* </PrivateRoute> */}
-            <Route path="/home" element={<HouseHoldDashboard />} />
-            <Route path="/*" element={<Navigate to="home/" />} />
+            <Route exact path="/" element={<PrivateRoute />}>
+              <Route exact path="/*" element={<HouseHoldDashboard />} />
+              {getRoutes(routes)}
+            </Route>
+            {/* <Route exact path="/*" element={<Navigate to="home/" />} /> */}
+            {/* </Route> */}
             {/* </Route> */}
             {getRoutes(loginRoutes)}
           </Routes>

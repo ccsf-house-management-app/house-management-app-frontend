@@ -232,6 +232,10 @@ function RoomsList() {
         </SuiTypography>
       </SuiBox>
       {roomsListRenderedElements}
+
+      <SuiButton>
+        <PlaceholderCard title={{ variant: "h5", text: "Create new Room" }} outlined />
+      </SuiButton>
     </Card>
   );
 }

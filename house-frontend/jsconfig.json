@@ -2,9 +2,10 @@
   "compilerOptions": {
     "baseUrl": "src",
     "paths": {
-      "*": ["src/*"]
+      "*": ["src/"]
     },
-    "target": "ES6"
+    "target": "ES6",
+    "jsx": "preserve"
   },
   "exclude": [
       "node_modules",

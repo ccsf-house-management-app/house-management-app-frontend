@@ -85,6 +85,10 @@ function HouseholdDashboardNavbar({ absolute, light, isMini }) {
   }, [user]);
 
   useEffect(() => {
+    checkUser();
+  }, []);
+
+  useEffect(() => {
     // Setting the navbar type
     if (fixedNavbar) {
       setNavbarType("sticky");
@@ -154,6 +158,8 @@ function HouseholdDashboardNavbar({ absolute, light, isMini }) {
     </Menu>
   );
 
+  // checkUser();
+
   return (
     <AppBar
       position={absolute ? "absolute" : navbarType}
@@ -177,35 +183,35 @@ function HouseholdDashboardNavbar({ absolute, light, isMini }) {
         </SuiBox>
         {isMini ? null : (
           <SuiBox sx={(theme) => navbarRow(theme, { isMini })}>
-            <SuiBox pr={4}>
+            {/* <SuiBox pr={4}>
               <SuiInput
                 placeholder="Type here..."
                 icon={{ component: "search", direction: "left" }}
               />
-            </SuiBox>
+            </SuiBox> */}
             <SuiBox color={light ? "white" : "inherit"}>
-              {/* {userLoggedIn ? (
+              {userLoggedIn ? (
                 <UserInfo />
-              ) : ( */}
-              <Link to="/authentication/sign-in">
-                <IconButton sx={navbarIconButton} size="small">
-                  <Icon
-                    sx={({ palette: { dark, white } }) => ({
-                      color: light ? white.main : dark.main,
-                    })}
-                  >
-                    account_circle
-                  </Icon>
-                  <SuiTypography
-                    variant="button"
-                    fontWeight="medium"
-                    color={light ? "white" : "dark"}
-                  >
-                    Sign in
-                  </SuiTypography>
-                </IconButton>
-              </Link>
-              {/* )} */}
+              ) : (
+                <Link to="/authentication/sign-in">
+                  <IconButton sx={navbarIconButton} size="small">
+                    <Icon
+                      sx={({ palette: { dark, white } }) => ({
+                        color: light ? white.main : dark.main,
+                      })}
+                    >
+                      account_circle
+                    </Icon>
+                    <SuiTypography
+                      variant="button"
+                      fontWeight="medium"
+                      color={light ? "white" : "dark"}
+                    >
+                      Sign in
+                    </SuiTypography>
+                  </IconButton>
+                </Link>
+              )}
               <IconButton
                 size="small"
                 color="inherit"
