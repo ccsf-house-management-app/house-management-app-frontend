@@ -40,7 +40,7 @@ export function AuthProvider({ children }) {
       localStorage.setItem("authTokens", JSON.stringify(data));
       // history.push("/");
       // history("/home");
-      <Navigate to="/" />;
+      <Navigate to="/records" />;
     } else {
       // eslint-disable-next-line no-alert
       alert("Something went wrong!");
@@ -72,7 +72,7 @@ export function AuthProvider({ children }) {
     setUser(null);
     localStorage.removeItem("authTokens");
     // history.push("/");
-    <Navigate to="/" />;
+    <Navigate to="/login" />;
   };
 
   // eslint-disable-next-line react/jsx-no-constructed-context-values

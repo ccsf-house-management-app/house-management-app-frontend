@@ -161,166 +161,182 @@ function HouseholdDashboardNavbar({ absolute, light, isMini }) {
   // checkUser();
 
   return (
-    <AppBar
-      position={absolute ? "absolute" : navbarType}
-      color="inherit"
-      sx={(theme) => navbar(theme, { transparentNavbar, absolute, light })}
-    >
-      <Toolbar sx={(theme) => navbarContainer(theme)}>
-        <SuiBox
-          color="inherit"
-          width="50%"
-          mb={{ xs: 1, md: 1 }}
-          sx={(theme) => navbarRow(theme, { isMini })}
-        >
-          <Breadcrumbs
-            id="breadcrumbs"
-            icon="home"
-            title={route[route.length - 1]}
-            route={route}
-            light={light}
-          />
-        </SuiBox>
-        {isMini ? null : (
-          <SuiBox sx={(theme) => navbarRow(theme, { isMini })}>
-            {/* <SuiBox pr={4}>
-              <SuiInput
-                placeholder="Type here..."
-                icon={{ component: "search", direction: "left" }}
-              />
-            </SuiBox> */}
-            <SuiBox color={light ? "white" : "inherit"}>
-              {userLoggedIn ? (
-                <UserInfo />
-              ) : (
-                <Link to="/authentication/sign-in">
-                  <IconButton sx={navbarIconButton} size="small">
-                    <Icon
-                      sx={({ palette: { dark, white } }) => ({
-                        color: light ? white.main : dark.main,
-                      })}
-                    >
-                      account_circle
-                    </Icon>
-                    <SuiTypography
-                      variant="button"
-                      fontWeight="medium"
-                      color={light ? "white" : "dark"}
-                    >
-                      Sign in
-                    </SuiTypography>
-                  </IconButton>
-                </Link>
-              )}
-              <IconButton
-                size="small"
-                color="inherit"
-                sx={navbarMobileMenu}
-                onClick={handleMiniSidenav}
-              >
-                <Icon className={light ? "text-white" : "text-dark"}>
-                  {miniSidenav ? "menu_open" : "menu"}
-                </Icon>
-              </IconButton>
-              {/* <IconButton
-                size="small"
-                color="inherit"
-                sx={navbarIconButton}
-                onClick={handleConfiguratorOpen}
-              >
-                <Icon>settings</Icon>
-              </IconButton> */}
-              {/* <IconButton
-                size="small"
-                color="inherit"
-                sx={navbarIconButton}
-                aria-controls="notification-menu"
-                aria-haspopup="true"
-                variant="contained"
-                onClick={handleOpenMenu}
-              >
-                <Icon className={light ? "text-white" : "text-dark"}>notifications</Icon>
-              </IconButton> */}
-              {renderMenu()}
-            </SuiBox>
-          </SuiBox>
-        )}
-      </Toolbar>
-      <Grid
-        container
-        width={{ xs: "75%", sm: "100%" }}
-        mb={{ xs: 2 }}
-        spacing={{ xs: 2, sm: 2, md: 2 }}
-        align="center"
-        justify="center"
+    <>
+      <div style={{ minWidth: 576 }}></div>
+      <AppBar
+        position={absolute ? "absolute" : navbarType}
+        color="inherit"
+        sx={(theme) => navbar(theme, { transparentNavbar, absolute, light })}
       >
-        <Grid item xs={4}>
-          <SuiBox color={light ? "white" : "inherit"}>
-            {/* // display={{ xs: "inline-flex", sm: "flex" }}> */}
-            <Link to="/records/" onClick={checkUser}>
-              <SuiTypography
-                // variant="button"
-                // fontSize="600"
-                variant="button"
-                fontWeight="bold"
-                // fontSize={{ pxToRem(16) }}
-                color={light ? "white" : "dark"}
-                fontSize={pxToRem(18)}
+        <Grid
+          container
+          width={{ xs: "75%", sm: "100%" }}
+          mb={{ xs: 2 }}
+          spacing={{ xs: 2, sm: 2, md: 2 }}
+          align="center"
+          justify="center"
+        >
+          <Grid item xs={6}>
+            <Toolbar sx={(theme) => navbarContainer(theme)}>
+              <SuiBox
+                color="inherit"
+                width="100%"
+                mb={{ xs: 1, md: 1 }}
+                sx={(theme) => navbarRow(theme, { isMini })}
               >
-                Records
-              </SuiTypography>
-            </Link>
-          </SuiBox>
+                <Breadcrumbs
+                  id="breadcrumbs"
+                  icon="home"
+                  title={route[route.length - 1]}
+                  route={route}
+                  light={light}
+                />
+              </SuiBox>
+            </Toolbar>
+          </Grid>
+          <Grid item xs={6} container justifyContent="flex-end">
+            {isMini ? null : (
+              <SuiBox>
+                {/* <SuiBox pr={4}>
+            <SuiInput
+              placeholder="Type here..."
+              icon={{ component: "search", direction: "left" }}
+            />
+          </SuiBox> */}
+                <SuiBox color={light ? "white" : "inherit"}>
+                  {userLoggedIn ? (
+                    <UserInfo />
+                  ) : (
+                    <Link to="/authentication/sign-in">
+                      <IconButton sx={navbarIconButton} size="small">
+                        <Icon
+                          sx={({ palette: { dark, white } }) => ({
+                            color: light ? white.main : dark.main,
+                          })}
+                        >
+                          account_circle
+                        </Icon>
+                        <SuiTypography
+                          variant="button"
+                          fontWeight="medium"
+                          color={light ? "white" : "dark"}
+                        >
+                          Sign in
+                        </SuiTypography>
+                      </IconButton>
+                    </Link>
+                  )}
+                  <IconButton
+                    size="small"
+                    color="inherit"
+                    sx={navbarMobileMenu}
+                    onClick={handleMiniSidenav}
+                  >
+                    {/* <Icon className={light ? "text-white" : "text-dark"}>
+            {miniSidenav ? "menu_open" : "menu"}
+          </Icon> */}
+                  </IconButton>
+                  {/* <IconButton
+            size="small"
+            color="inherit"
+            sx={navbarIconButton}
+            onClick={handleConfiguratorOpen}
+          >
+            <Icon>settings</Icon>
+          </IconButton> */}
+                  {/* <IconButton
+            size="small"
+            color="inherit"
+            sx={navbarIconButton}
+            aria-controls="notification-menu"
+            aria-haspopup="true"
+            variant="contained"
+            onClick={handleOpenMenu}
+          >
+            <Icon className={light ? "text-white" : "text-dark"}>notifications</Icon>
+          </IconButton> */}
+                  {renderMenu()}
+                </SuiBox>
+              </SuiBox>
+            )}
+          </Grid>
         </Grid>
-        <Grid item xs={4}>
-          <SuiBox color={light ? "white" : "inherit"}>
-            <Link to="/reports/">
-              <SuiTypography
-                variant="button"
-                fontWeight="bold"
-                color={light ? "white" : "dark"}
-                fontSize={pxToRem(18)}
-              >
-                Reports
-              </SuiTypography>
-            </Link>
-          </SuiBox>
+        <Grid
+          container
+          width={{ xs: "75%", sm: "100%" }}
+          mb={{ xs: 2 }}
+          spacing={{ xs: 2, sm: 2, md: 2 }}
+          align="center"
+          justify="center"
+        >
+          <Grid item xs={4}>
+            <SuiBox color={light ? "white" : "inherit"}>
+              {/* // display={{ xs: "inline-flex", sm: "flex" }}> */}
+              <Link to="/records/" onClick={checkUser}>
+                <SuiTypography
+                  // variant="button"
+                  // fontSize="600"
+                  variant="button"
+                  fontWeight="bold"
+                  // fontSize={{ pxToRem(16) }}
+                  color={light ? "white" : "dark"}
+                  fontSize={pxToRem(18)}
+                >
+                  Records
+                </SuiTypography>
+              </Link>
+            </SuiBox>
+          </Grid>
+          <Grid item xs={4}>
+            <SuiBox color={light ? "white" : "inherit"}>
+              <Link to="/reports/">
+                <SuiTypography
+                  variant="button"
+                  fontWeight="bold"
+                  color={light ? "white" : "dark"}
+                  fontSize={pxToRem(18)}
+                >
+                  Reports
+                </SuiTypography>
+              </Link>
+            </SuiBox>
+          </Grid>
+          <Grid item xs={4}>
+            <SuiBox color={light ? "white" : "inherit"}>
+              <Link to="/resources/">
+                <SuiTypography
+                  variant="button"
+                  fontWeight="bold"
+                  color={light ? "white" : "dark"}
+                  fontSize={pxToRem(18)}
+                >
+                  Resources
+                </SuiTypography>
+              </Link>
+            </SuiBox>
+          </Grid>
         </Grid>
-        <Grid item xs={4}>
-          <SuiBox color={light ? "white" : "inherit"}>
-            <Link to="/resources/">
-              <SuiTypography
-                variant="button"
-                fontWeight="bold"
-                color={light ? "white" : "dark"}
-                fontSize={pxToRem(18)}
-              >
-                Resources
-              </SuiTypography>
-            </Link>
-          </SuiBox>
-        </Grid>
-      </Grid>
-      {/* <Toolbar sx={(theme) => navbarContainer(theme)}></Toolbar> */}
-      {/* <Toolbar sx={(theme) => navbarContainer(theme)}>
-        <SuiBox color={light ? "white" : "inherit"}>
-          <Link to="/authentication/sign-in">
-            <IconButton sx={navbarIconButton} size="small">
-              <Icon
-                sx={({ palette: { dark, white } }) => ({
-                  color: light ? white.main : dark.main,
-                })}
-              >
-                account_circle
-              </Icon>
-              <SuiTypography variant="button" fontWeight="medium" color={light ? "white" : "dark"}>
-                Sign in
-              </SuiTypography>
-            </IconButton>
-          </Link>
-        </SuiBox>
-      </Toolbar> */}
-    </AppBar>
+        {/* <Toolbar sx={(theme) => navbarContainer(theme)}></Toolbar> */}
+        {/* <Toolbar sx={(theme) => navbarContainer(theme)}>
+      <SuiBox color={light ? "white" : "inherit"}>
+        <Link to="/authentication/sign-in">
+          <IconButton sx={navbarIconButton} size="small">
+            <Icon
+              sx={({ palette: { dark, white } }) => ({
+                color: light ? white.main : dark.main,
+              })}
+            >
+              account_circle
+            </Icon>
+            <SuiTypography variant="button" fontWeight="medium" color={light ? "white" : "dark"}>
+              Sign in
+            </SuiTypography>
+          </IconButton>
+        </Link>
+      </SuiBox>
+    </Toolbar> */}
+      </AppBar>
+    </>
   );
 }
 
