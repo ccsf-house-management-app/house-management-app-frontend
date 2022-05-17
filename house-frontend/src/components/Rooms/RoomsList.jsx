@@ -38,6 +38,7 @@ import homeDecor2 from "assets/images/home-decor-2.jpg";
 import homeDecor3 from "assets/images/home-decor-3.jpg";
 import Button from "@material-ui/core/Button";
 import CustomAddButton from "components/CustomAddRecordButton/CustomAddRecordButton";
+import CreateRoomDialog from "./CreateRoom";
 
 // import { withStyles } from "@material-ui/core/styles";
 
@@ -45,6 +46,14 @@ const defaultRoomImages = [homeDecor1, homeDecor2, homeDecor3];
 
 function RoomsList() {
   const [roomsListRenderedElements, setRoomsRenderedElements] = useState([]);
+  const [openDialog, setDialogOpen] = React.useState(false);
+
+  const setDialogToOpen = () => {
+    setDialogOpen(true);
+  };
+  const closeDialog = () => {
+    setDialogOpen(false);
+  };
 
   function renderRooms(roomsData) {
     const attributes = roomsData.map((room) => ({
@@ -181,6 +190,7 @@ function RoomsList() {
   }
 
   useEffect(() => {
+    closeDialog();
     const fetchData = async () => {
       // const users = await axios.get("http://127.0.0.1:8000/api/users/").then((response) => {
       const roomsData = await backendService.getAll("rooms").then((response) => {
@@ -238,9 +248,8 @@ function RoomsList() {
       {roomsListRenderedElements}
 
       {/* <SuiButton> */}
-      <CustomAddButton>
-        <PlaceholderCard title={{ variant: "h5", text: "Create New Room" }} outlined />
-      </CustomAddButton>
+
+      <CreateRoomDialog open={openDialog || false} onClose={closeDialog} />
       {/* </SuiButton> */}
     </Card>
   );

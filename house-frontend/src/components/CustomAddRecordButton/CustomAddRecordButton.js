@@ -20,17 +20,30 @@ const styles = {
       //   marginTop: ".5rem",
       margin: 0,
       border: "0.0925rem solid #dee2e6",
+      // transition: "none",
       // borderRadius: "100px",
-      // boxShadow: "0px 5px 5px 5px rgba(0,0,0,0.75);",
+      boxShadow: "0px 1px 1px 1px rgba(0,0,0,0.05);",
     },
+    // "&.hover": { boxShadow: "0px 1px 1px 1px rgba(0,0,0,0.05);" },
+    // "&.active": {
+    //   transform: "translate(100 %)",
+    // },
   },
 };
 
-function CustomAddButton(props) {
+function CustomAddButton(props, ...rest) {
   const { classes } = props;
   const { children } = props;
-  return <SuiButton className={classes.root}>{children}</SuiButton>;
+  const { onPress } = props;
+  // const { ...rest } = props;
+  return (
+    <SuiButton variant="light" fullWidth onClick={onPress} className={classes.root}>
+      {children}
+    </SuiButton>
+  );
 }
+
+CustomAddButton.defaultProps = { onPress: null };
 
 CustomAddButton.propTypes = {
   classes: PropTypes.object.isRequired,
@@ -39,6 +52,7 @@ CustomAddButton.propTypes = {
     PropTypes.node,
     PropTypes.object,
   ]).isRequired,
+  onPress: PropTypes.oneOfType([PropTypes.func, PropTypes.any]),
 };
 
 export default withStyles(styles)(CustomAddButton);
