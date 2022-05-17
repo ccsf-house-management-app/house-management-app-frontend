@@ -57,6 +57,7 @@ import routes from "routes";
 import { useSoftUIController, setOpenConfigurator } from "context";
 import loginRoutes from "utils/loginRoute";
 import HouseHoldDashboard from "pages/Home/index";
+import Records from "./pages/records/Records";
 import AuthContext from "./context/AuthContext";
 import PrivateRoute from "./utils/PrivateRoute";
 
@@ -200,7 +201,7 @@ export default function App() {
             {/* <Route path="/" element={<PrivateRoute />}> */}
             {/* </PrivateRoute> */}
             <Route exact path="/" element={<PrivateRoute />}>
-              <Route exact path="/*" element={<HouseHoldDashboard />} />
+              <Route exact path="/*" element={<Records />} />
               {getRoutes(routes)}
             </Route>
             {/* <Route exact path="/*" element={<Navigate to="home/" />} /> */}

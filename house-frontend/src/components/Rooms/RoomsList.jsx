@@ -88,7 +88,7 @@ function RoomsList() {
         m={4}
         px={1}
       >
-        <Grid item xs={12} sm={12} md={4} xl={4} ml={1}>
+        <Grid item xs={12} sm={12} md={6} xl={6} ml={1}>
           <SuiBox position="relative" width="100.25%" shadow="xl" borderRadius="xl">
             <Card
               sx={{
@@ -112,7 +112,7 @@ function RoomsList() {
           container
           direction="row"
           alignItems="center"
-          ml={{ sm: 2 }}
+          ml={{ sm: 2, md: 8 }}
           mt={{ sm: 2 }}
           shadow="xl"
           borderRadius="xl"
