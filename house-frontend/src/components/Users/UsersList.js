@@ -46,6 +46,7 @@ import axios from "axios";
 import backendService from "services/backend-service";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import PlaceholderCard from "examples/Cards/PlaceholderCard/index";
+import CustomAddButton from "components/CustomAddRecordButton/CustomAddRecordButton";
 
 // passing an empty array makes this not dependent on props
 // useEffect(() => {
@@ -266,10 +267,13 @@ function UsersList({ title }) {
           </SuiBox> */}
         </SuiBox>
       </SuiBox>
-      <SuiBox p="2">
-        {/* <PlaceholderCard title="Create User">Create new User</PlaceholderCard> */}
+      {/* <SuiBox p="2">
+        <PlaceholderCard title="Create User">Create new User</PlaceholderCard>
         <PlaceholderCard title={{ variant: "h5", text: "Create new User" }} outlined />
-      </SuiBox>
+      </SuiBox> */}
+      <CustomAddButton>
+        <PlaceholderCard title={{ variant: "h5", text: "Create New Room" }} outlined />
+      </CustomAddButton>
     </Card>
   );
 }

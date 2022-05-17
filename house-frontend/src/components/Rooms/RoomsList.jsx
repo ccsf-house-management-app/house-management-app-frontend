@@ -36,6 +36,10 @@ import Typography from "@mui/material/Typography";
 import homeDecor1 from "assets/images/home-decor-1.jpg";
 import homeDecor2 from "assets/images/home-decor-2.jpg";
 import homeDecor3 from "assets/images/home-decor-3.jpg";
+import Button from "@material-ui/core/Button";
+import CustomAddButton from "components/CustomAddRecordButton/CustomAddRecordButton";
+
+// import { withStyles } from "@material-ui/core/styles";
 
 const defaultRoomImages = [homeDecor1, homeDecor2, homeDecor3];
 
@@ -233,9 +237,11 @@ function RoomsList() {
       </SuiBox>
       {roomsListRenderedElements}
 
-      <SuiButton>
-        <PlaceholderCard title={{ variant: "h5", text: "Create new Room" }} outlined />
-      </SuiButton>
+      {/* <SuiButton> */}
+      <CustomAddButton>
+        <PlaceholderCard title={{ variant: "h5", text: "Create New Room" }} outlined />
+      </CustomAddButton>
+      {/* </SuiButton> */}
     </Card>
   );
 }
