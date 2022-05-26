@@ -32,7 +32,7 @@ Once signed in, you should be redirected to the **Records** page which is the on
 
 Under the list of **Rooms** you can add a new Room Entry using the "Create New Room" button.  
 
-*note: The Room ID has to be entered manually as a simple string. *
+- _note: The Room ID has to be entered manually as a simple string._
 
 This is the only CRUD function currently available on the front-end.  
 
