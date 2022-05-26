@@ -47,6 +47,21 @@ import backendService from "services/backend-service";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import PlaceholderCard from "examples/Cards/PlaceholderCard/index";
 import CustomAddButton from "components/CustomAddRecordButton/CustomAddRecordButton";
+import { useForm, Controller } from "react-hook-form";
+
+import {
+  Button,
+  Paper,
+  TextField,
+  Dialog,
+  // Card,
+  Container,
+  FormControlLabel,
+  Box,
+  Typography,
+  // Grid,
+  Checkbox,
+} from "@material-ui/core";
 
 // passing an empty array makes this not dependent on props
 // useEffect(() => {
@@ -74,6 +89,92 @@ export const styles2 = (theme) => ({
     backgroundColor: "pink",
   },
 });
+
+function OtherForm() {
+  //   const { handleSubmit, reset, control, register } = useForm();
+  //   const onSubmit = (data) => console.log(JSON.stringify(data));
+  const submitting = (e) => {
+    e.preventDefault();
+    console.log(e.currentTarget.elements.input);
+  };
+  //
+  //   const aController = (
+  //     <Controller
+  //       name="acceptTerms"
+  //       control={control}
+  //       defaultValue="false"
+  //       inputRef={register()}
+  //       render={({ field: { onChange } }) => (
+  //         <Checkbox color="primary" onChange={(e) => onChange(e.target.checked)} />
+  //       )}
+  //     />
+  //   );
+  return (
+    <Paper>
+      <Box px={3} py={2}>
+        <SuiBox component="form" onSubmit={submitting} id="myForm">
+          {/* <FormControl> */}
+          <Typography variant="h6" align="center" margin="dense">
+            React Hook Form - Material UI - Validation
+          </Typography>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={12}>
+              <TextField
+                required
+                id="fullname"
+                name="fullname"
+                label="Full Name"
+                fullWidth
+                margin="dense"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id="username"
+                name="username"
+                label="Username"
+                fullWidth
+                margin="dense"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField required id="email" name="email" label="Email" fullWidth margin="dense" />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id="password"
+                name="password"
+                label="Password"
+                type="password"
+                fullWidth
+                margin="dense"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                id="confirmPassword"
+                name="confirmPassword"
+                label="Confirm Password"
+                type="password"
+                fullWidth
+                margin="dense"
+              />
+            </Grid>
+          </Grid>
+          <Box mt={3}>
+            <Button variant="contained" color="primary" type="submit" form="myForm">
+              Register
+            </Button>
+          </Box>
+          {/* </FormControl> */}
+        </SuiBox>
+      </Box>
+    </Paper>
+  );
+}
 
 function UsersList({ title }) {
   const [profileRenderedElements, setProfilesRenderedElements] = useState([]);
@@ -272,7 +373,7 @@ function UsersList({ title }) {
         <PlaceholderCard title={{ variant: "h5", text: "Create new User" }} outlined />
       </SuiBox> */}
       <CustomAddButton>
-        <PlaceholderCard title={{ variant: "h5", text: "Create New Room" }} outlined />
+        <PlaceholderCard title={{ variant: "h5", text: "Create New Tenant" }} outlined />
       </CustomAddButton>
     </Card>
   );

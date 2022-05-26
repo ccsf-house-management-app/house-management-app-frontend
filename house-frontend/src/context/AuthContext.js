@@ -4,6 +4,7 @@ import { createContext, useState, useEffect } from "react";
 // eslint-disable-next-line camelcase
 import jwt_decode from "jwt-decode";
 import { useNavigate, Navigate } from "react-router-dom";
+// import { format } from "date-fns";
 
 const AuthContext = createContext();
 export default AuthContext;
@@ -47,6 +48,47 @@ export function AuthProvider({ children }) {
     }
   };
 
+  function getCurrentDate(separator = "-") {
+    const newDate = new Date();
+    const date = newDate.getDate();
+    const month = newDate.getMonth() + 1;
+    const year = newDate.getFullYear();
+
+    // return `${year}${separator}${month < 10 ? `0${month}` : `${month}`}${separator}${date}`;
+    return `${year}${separator}${month < 10 ? `0${month}` : `${month}`}${separator}${date}`;
+  }
+
+  const createRoom = async (formData) => {
+    // eslint-disable-next-line prefer-const
+    let submittedFormData = JSON.parse(JSON.stringify(formData));
+    submittedFormData.capacity = parseInt(submittedFormData.capacity, 10);
+    console.log(JSON.stringify(submittedFormData));
+    const today = new Date();
+    // const date = `${today.getDate()}-${parseInt(today.getMonth() + 1, 10)}-${today.getFullYear()}`;
+    submittedFormData.dateCreated = getCurrentDate();
+
+    const response = await fetch("http://127.0.0.1:8000/api/rooms/", {
+      method: "POST",
+      headers: {
+        authorization: authTokens,
+        // Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        roomId: submittedFormData.roomId,
+        roomName: submittedFormData.roomName,
+        roomDescription: submittedFormData.roomDescription,
+        rent: submittedFormData.rent,
+        capacity: submittedFormData.capacity,
+        date_created: submittedFormData.dateCreated,
+      }),
+    }).catch((err) => {
+      // handle error
+      console.log(err.response.data);
+    });
+    console.log(response);
+  };
+
   const registerUser = async (username, password, password2) => {
     const response = await fetch("http://127.0.0.1:8000/api/register/", {
       method: "POST",
@@ -84,6 +126,7 @@ export function AuthProvider({ children }) {
     registerUser,
     loginUser,
     logoutUser,
+    createRoom,
   };
 
   useEffect(() => {

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 
@@ -189,31 +190,42 @@ function RoomsList() {
     return roomElements;
   }
 
+  // const fetchData = async () => {
+  //   // const users = await axios.get("http://127.0.0.1:8000/api/users/").then((response) => {
+  //   const roomsData = await backendService.getAll("rooms").then((response) => {
+  //     console.log(`response: ${JSON.stringify(response.data)}`);
+  //     console.log(response.data);
+  //     console.log(response.status);
+  //     console.log(response.statusText);
+  //     console.log(response.headers);
+  //     console.log(response.config);
+  //     return response.data;
+  //   });
+  //   console.log(`Rooms API Response JSON: ${JSON.stringify(roomsData)}`);
+  //   if (roomsData) {
+  //     // setProfilesRenderedElements(users2);
+  //     // setProfilesJSON(users);
+  //     // console.log(`JSON DATA: ${JSON.stringify(profilesJSON)}`);
+  //     // console.log(`Profiles Loaded?: ${profilesDidLoad}`);
+  //     setRoomsRenderedElements(renderRooms(roomsData));
+  //     console.log(`Profile Rendered Component: ${roomsListRenderedElements}`);
+  //   } else {
+  //     console.log(`Can't render rooms!`);
+  //   }
+  // };
+
+  const fetchData = async () => {
+    const roomsData = await backendService.getAll("rooms").then((response) => response.data);
+    if (roomsData) {
+      setRoomsRenderedElements(renderRooms(roomsData));
+      console.log(`Profile Rendered Component: ${roomsListRenderedElements}`);
+    } else {
+      console.log(`Can't render rooms!`);
+    }
+  };
+
   useEffect(() => {
     closeDialog();
-    const fetchData = async () => {
-      // const users = await axios.get("http://127.0.0.1:8000/api/users/").then((response) => {
-      const roomsData = await backendService.getAll("rooms").then((response) => {
-        console.log(`response: ${JSON.stringify(response.data)}`);
-        console.log(response.data);
-        console.log(response.status);
-        console.log(response.statusText);
-        console.log(response.headers);
-        console.log(response.config);
-        return response.data;
-      });
-      console.log(`Rooms API Response JSON: ${JSON.stringify(roomsData)}`);
-      if (roomsData) {
-        // setProfilesRenderedElements(users2);
-        // setProfilesJSON(users);
-        // console.log(`JSON DATA: ${JSON.stringify(profilesJSON)}`);
-        // console.log(`Profiles Loaded?: ${profilesDidLoad}`);
-        setRoomsRenderedElements(renderRooms(roomsData));
-        console.log(`Profile Rendered Component: ${roomsListRenderedElements}`);
-      } else {
-        console.log(`Can't render rooms!`);
-      }
-    };
     fetchData();
   }, []);
 
@@ -249,7 +261,7 @@ function RoomsList() {
 
       {/* <SuiButton> */}
 
-      <CreateRoomDialog open={openDialog || false} onClose={closeDialog} />
+      <CreateRoomDialog open={openDialog || false} onClose={closeDialog} fetchData={fetchData} />
       {/* </SuiButton> */}
     </Card>
   );

@@ -25,9 +25,11 @@ const styles = {
       boxShadow: "0px 1px 1px 1px rgba(0,0,0,0.05);",
     },
     // "&.hover": { boxShadow: "0px 1px 1px 1px rgba(0,0,0,0.05);" },
-    // "&.active": {
-    //   transform: "translate(100 %)",
-    // },
+    "&.active": {
+      // transform: "translate(100 %)",
+      border: "0.0925rem solid #dee2e6",
+      borderRadius: "100px",
+    },
   },
 };
 
@@ -37,7 +39,7 @@ function CustomAddButton(props, ...rest) {
   const { onPress } = props;
   // const { ...rest } = props;
   return (
-    <SuiButton variant="light" fullWidth onClick={onPress} className={classes.root}>
+    <SuiButton variant="text" fullWidth onClick={onPress} className={classes.root}>
       {children}
     </SuiButton>
   );
